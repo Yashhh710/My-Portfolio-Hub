@@ -16,7 +16,7 @@ const portfolioData = [
     title: 'Professional Portfolio',
     description: 'A modern and immersive portfolio experience showcasing creative frontend development, interactive UI design, and innovative digital projects built with React, JavaScript, HTML, and CSS.',
     tags: ['React.js', 'Responsive Design', 'Mobile Friendly'],
-    liveLink: 'https://yash-portfolio-v5.vercel.app',
+    liveLink: 'https://yash-portfolio-v5.netlify.app/',
     githubLink: 'https://github.com/Yashhh710/yash.portfolio.professional-'
   },
   {
