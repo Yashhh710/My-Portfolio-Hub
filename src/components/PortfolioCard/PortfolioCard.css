@@ -1,0 +1,204 @@
+/* ==========================================================================
+   PORTFOLIO CARD COMPONENT STYLING
+   ========================================================================== */
+.portfolio-card {
+    scroll-margin-top: 120px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #09090e;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.portfolio-card:hover {
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+    transform: translateY(-4px);
+}
+
+/* Navigation Anchor Target Highlight Keyframes & Classes */
+@keyframes highTechPulse {
+    0% {
+        border-color: #818cf8;
+        box-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+        transform: translateY(-6px) scale(1.01);
+    }
+    70% {
+        border-color: #818cf8;
+        box-shadow: 0 0 30px rgba(129, 140, 248, 0.2);
+        transform: translateY(-4px) scale(1);
+    }
+    100% {
+        border-color: rgba(255, 255, 255, 0.03);
+        box-shadow: none;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.portfolio-card.activated-highlight {
+    animation: highTechPulse 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Image Core Component Layout */
+.project-preview {
+    width: 100%;
+    height: 220px;
+    background-color: #08080c;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 2;
+}
+
+.portfolio-card:hover .project-preview img {
+    transform: scale(1.03);
+}
+
+.project-preview-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 40%, #09090e 100%);
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Code Pill Badge Component */
+.project-preview-code {
+    position: absolute;
+    font-family: monospace;
+    font-size: 10px;
+    color: #ffffff;
+    top: 28px;
+    left: 28px;
+    background: #040406;
+    padding: 4px 10px;
+    border-radius: 4px;
+    z-index: 4;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Unified Info Field Format Layout */
+.project-info {
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: relative;
+    z-index: 4;
+}
+
+.project-title {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    color: #ffffff;
+}
+
+.project-description {
+    font-size: 14px;
+    color: rgba(148, 163, 184, 0.7);
+    font-weight: 400;
+    margin-bottom: 28px;
+    flex-grow: 1;
+    line-height: 1.6;
+}
+
+/* Tags List Layout Structure */
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 36px;
+}
+
+.tag {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(148, 163, 184, 0.5);
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* Permanent Underlined Action Links Format */
+.project-actions {
+    display: flex;
+    gap: 24px;
+    margin-top: auto;
+}
+
+.project-btn {
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-bottom: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Live View Link Accentuation */
+.live-link {
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+.live-link:hover {
+    opacity: 0.8;
+}
+
+/* GitHub Repository Link Accentuation */
+.repo-link {
+    color: rgba(148, 163, 184, 0.4);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.portfolio-card:hover .repo-link {
+    color: #ffffff;
+    border-bottom-color: #ffffff;
+}
+
+/* Responsive Design for Cards */
+@media (max-width: 768px) {
+    .project-preview {
+        height: 200px;
+    }
+
+    .project-info {
+        padding: 24px;
+    }
+
+    .project-title {
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    .project-description {
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    .project-actions {
+        gap: 16px;
+    }
+
+    .project-btn {
+        font-size: 12px;
+    }
+}

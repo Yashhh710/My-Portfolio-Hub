@@ -1,0 +1,136 @@
+/* ==========================================================================
+   FOOTER COMPONENT STYLING
+   ========================================================================== */
+.footer {
+    background: rgba(10, 10, 15, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 80px 0 40px 0;
+    margin-top: 140px;
+    position: relative;
+    z-index: 100;
+}
+
+.footer-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 60px;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+}
+
+.footer-brand {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-title {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+.footer-subtitle {
+    font-size: 14px;
+    color: rgba(148, 163, 184, 0.6);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+}
+
+.footer-divider {
+    width: 1px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.footer-links {
+    display: flex;
+    gap: 80px;
+    flex: 1;
+    min-width: 300px;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer-section-title {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #e2e8f0;
+    margin-bottom: 4px;
+}
+
+.footer-section ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-section a {
+    font-size: 13px;
+    color: rgba(148, 163, 184, 0.6);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    letter-spacing: 0.03em;
+}
+
+.footer-section a:hover {
+    color: #ffffff;
+}
+
+.footer-bottom {
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-size: 12px;
+    color: rgba(148, 163, 184, 0.5);
+    letter-spacing: 0.05em;
+}
+
+/* Responsive Design for Footer */
+@media (max-width: 768px) {
+    .footer {
+        padding: 60px 0 30px 0;
+        margin-top: 100px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .footer-divider {
+        display: none;
+    }
+
+    .footer-links {
+        gap: 40px;
+    }
+
+    .footer-brand {
+        min-width: auto;
+    }
+
+    .footer-section-title {
+        font-size: 12px;
+    }
+
+    .footer-section a {
+        font-size: 12px;
+    }
+
+    .footer-bottom {
+        padding-top: 30px;
+        font-size: 11px;
+    }
+}

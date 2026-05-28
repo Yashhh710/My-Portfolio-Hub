@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yash Tambade | Creative Developer & Digital Designer</title>
+    <!-- Google Fonts: Space Grotesk for Headings, Inter for Body text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           RESET & BASE STYLES
+           ========================================================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: #050508;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        body {
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Global Typography */
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        li {
+            list-style: none;
+        }
+
+        button {
+            background: none;
+            border: none;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050508;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f3f46;
+        }
+
+        /* Utility Classes for Layout */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            padding: 140px 0;
+            position: relative;
+        }
+
+        /* Scroll Animation Entry States */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* ==========================================================================
+           CINEMATIC AMBIENT & VISUAL EFFECTS
+           ========================================================================== */
+        .ambient-glow {
+            position: fixed;
+            width: 60vw;
+            height: 60vw;
+            top: -20vw;
+            left: 20vw;
+            background: radial-gradient(circle, rgba(148, 163, 184, 0.05) 0%, rgba(0,0,0,0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #mouse-spotlight {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(203, 213, 225, 0.04) 0%, rgba(0,0,0,0) 80%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.4;
+        }
+
+        .glass-panel {
+            background: rgba(10, 10, 15, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        /* ==========================================================================
+           CINEMATIC PRELOADER
+           ========================================================================== */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #050508;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s cubic-bezier(0.77, 0, 0.175, 1), visibility 0.8s;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-title {
+            font-size: 24px;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: loaderFadeIn 1s forwards 0.2s;
+        }
+
+        .loader-bar-container {
+            width: 200px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .loader-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background: #ffffff;
+            animation: loaderProgress 1.8s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+        }
+
+        @keyframes loaderFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes loaderProgress {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+
+        /* ==========================================================================
+           FLOATING NAVIGATION
+           ========================================================================== */
+        .navbar-wrapper {
+            position: fixed;
+            top: 24px;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: transform 0.4s ease;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 32px;
+            border-radius: 100px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transition: padding 0.4s ease, background 0.4s ease;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 24px;
+        }
+
+        .navbar-link {
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #94a3b8;
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .navbar-link:hover, .navbar-link.active {
+            color: #ffffff;
+        }
+
+        .navbar-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #ffffff;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .navbar-link:hover::after, .navbar-link.active::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            width: 24px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: #ffffff;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        /* ==========================================================================
+           PORTFOLIO SHOWCASE SECTION (2x3 GRID ARCHITECTURE)
+           ========================================================================== */
+        .section-header {
+            margin-bottom: 80px;
+            text-align: left;
+        }
+
+        .section-tag {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: #64748b;
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        /* Base mobile structure: Single full-width stack */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        /* Fixed 2-column, 3-row layout on screens > 768px */
+        @media (min-width: 768px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Card Framework Layout Architecture */
+        .portfolio-card {
+            scroll-margin-top: 120px; 
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background: #09090e;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .portfolio-card:hover {
+            border-color: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            transform: translateY(-4px);
+        }
+
+        /* Navigation Anchor Target Highlight Keyframes & Classes */
+        @keyframes highTechPulse {
+            0% {
+                border-color: #818cf8;
+                box-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+                transform: translateY(-6px) scale(1.01);
+            }
+            70% {
+                border-color: #818cf8;
+                box-shadow: 0 0 30px rgba(129, 140, 248, 0.2);
+                transform: translateY(-4px) scale(1);
+            }
+            100% {
+                border-color: rgba(255, 255, 255, 0.03);
+                box-shadow: none;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .portfolio-card.activated-highlight {
+            animation: highTechPulse 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* Image Core Component Layout */
+        .project-preview {
+            width: 100%;
+            height: 220px;
+            background-color: #08080c;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 2;
+        }
+
+        .portfolio-card:hover .project-preview img {
+            transform: scale(1.03);
+        }
+
+        .project-preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 40%, #09090e 100%);
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* Code Pill Badge Component */
+        .project-preview-code {
+            position: absolute;
+            font-family: monospace;
+            font-size: 10px;
+            color: #ffffff;
+            top: 28px;
+            left: 28px;
+            background: #040406;
+            padding: 4px 10px;
+            border-radius: 4px;
+            z-index: 4;
+            letter-spacing: 0.05em;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Unified Info Field Format Layout */
+        .project-info {
+            padding: 36px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            position: relative;
+            z-index: 4;
+        }
+
+        .project-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .project-description {
+            font-size: 14px;
+            color: rgba(148, 163, 184, 0.7);
+            font-weight: 400;
+            margin-bottom: 28px;
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+
+        /* Tags List Layout Structure */
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 36px;
+        }
+
+        .tag {
+            font-size: 11px;
+            font-weight: 500;
+            color: rgba(148, 163, 184, 0.5);
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* Permanent Underlined Action Links Format */
+        .project-actions {
+            display: flex;
+            gap: 24px;
+            margin-top: auto;
+        }
+
+        .project-btn {
+            display: inline-flex;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding-bottom: 2px;
+        }
+
+        /* Live View Link Accentuation */
+        .live-link {
+            color: #ffffff;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        /* GitHub Repository Link Accentuation */
+        .repo-link {
+            color: rgba(148, 163, 184, 0.4);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        
+        .portfolio-card:hover .repo-link:hover {
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+
+        /* ==========================================================================
+           RESPONSIVE RE-ARCHITECTURE (MOBILE CONTROLS)
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .section {
+                padding: 100px 0;
+            }
+
+            .navbar-wrapper {
+                top: 16px;
+            }
+
+            .navbar {
+                padding: 12px 24px;
+                border-radius: 24px;
+                width: calc(100% - 32px);
+                margin: 0 auto;
+            }
+
+            .nav-toggle {
+                display: flex;
+                z-index: 1001;
+            }
+
+            .navbar-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 320px;
+                height: 100vh;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                border-left: 1px solid rgba(255, 255, 255, 0.05);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                transition: right 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            }
+
+            .navbar-menu.active {
+                right: 0;
+            }
+
+            .navbar-wrapper.open .nav-toggle span:nth-child(1) {
+                transform: translateY(7px) rotate(45deg);
+            }
+            .navbar-wrapper.open .nav-toggle span:nth-child(2) {
+                opacity: 0;
+            }
+            .navbar-wrapper.open .nav-toggle span:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Visual Elements -->
+    <div class="ambient-glow"></div>
+    <div id="mouse-spotlight"></div>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Cinematic Loading Overlay -->
+    <div id="loader">
+        <div class="loader-content">
+            <div class="loader-title">Yash Tambade</div>
+            <div class="loader-bar-container">
+                <div class="loader-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Navigation Bar Grid -->
+    <div class="navbar-wrapper">
+        <div class="container">
+            <nav class="navbar glass-panel">
+                <a href="#port1" class="navbar-brand">YT</a>
+                <button class="nav-toggle" id="menu-toggle" aria-label="Toggle Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="navbar-menu" id="nav-menu">
+                    <li><a href="#port1" class="navbar-link active">Port 1</a></li>
+                    <li><a href="#port2" class="navbar-link">Port 2</a></li>
+                    <li><a href="#port3" class="navbar-link">Port 3</a></li>
+                    <li><a href="#port4" class="navbar-link">Port 4</a></li>
+                    <li><a href="#port5" class="navbar-link">Port 5</a></li>
+                    <li><a href="#port6" class="navbar-link">Port 6</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Portfolio Grid Matrix Showcase (Enforced 2x3 Structure) -->
+    <section id="projects" class="section">
+        <div class="container">
+            <div class="section-header reveal-element">
+                <span class="section-tag">Yash Tambade</span>
+                <h2 class="section-title">Selected Portfolios</h2>
+            </div>
+            
+            <div class="portfolio-grid">
+                <!-- Project Card 1 -->
+                <div id="port1" class="portfolio-card reveal-element">
+                    <div class="project-preview">
+                        <span class="project-preview-code">01 // Professional </span>
+                        <img src="img\1.png" alt="Cinematic Portfolio Showcase">
+                        <div class="project-preview-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Professional Portfolio</h3>
+                        <p class="project-description">A modern and immersive portfolio experience showcasing creative frontend development, interactive UI design, and innovative digital projects built with React, JavaScript, HTML, and CSS.
+</p>
+                        <div class="project-tags">
+                            <span class="tag">React.js</span>
+                            <span class="tag">Responsive Design</span>
+                            <span class="tag">Mobile Friendly</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://yash-portfolio-v5.netlify.app" target="_blank" class="project-btn live-link">Live View &rarr;</a>
+                            <a href="https://github.com/Yashhh710/yash.portfolio.professional-" target="_blank" class="project-btn repo-link">GitHub &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div id="port2" class="portfolio-card reveal-element">
+                    <div class="project-preview">
+                        <span class="project-preview-code">02 // Dark theam</span>
+                        <img src="img/2.png" alt="Anime Inspired Showcase">
+                        <div class="project-preview-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Dark Theme Portfolio</h3>
+                        <p class="project-description">A modern and immersive portfolio showcasing innovative frontend development, interactive UI design, and visually engaging digital experiences built with modern web technologies.
+</p>
+                        <div class="project-tags">
+                            <span class="tag">React.js</span>
+                            <span class="tag">UI/UX Design</span>
+                            <span class="tag">Modern UI</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://portfolio-v4-three-mauve.vercel.app" target="_blank" class="project-btn live-link">Live View &rarr;</a>
+                            <a href="https://github.com/Yashhh710/Portfolio-v4" target="_blank" class="project-btn repo-link">GitHub &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div id="port3" class="portfolio-card reveal-element">
+                    <div class="project-preview">
+                        <span class="project-preview-code">03 // SkyLine</span>
+                        <img src="img\3.png" alt="Minimal Developer Showcase">
+                        <div class="project-preview-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">SkyLine Protocol</h3>
+                        <p class="project-description">Skyline Protocol is a futuristic digital portfolio experience blending immersive visuals, modern frontend development, and interactive storytelling into a unique web journey.
+</p>
+                        <div class="project-tags">
+                            <span class="tag">React.js</span>
+                            <span class="tag">Anime</span>
+                            <span class="tag">UI/UX</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://map-port-v1.vercel.app" target="_blank" class="project-btn live-link">Live View &rarr;</a>
+                            <a href="https://github.com/Yashhh710/map-port-v1" target="_blank" class="project-btn repo-link">GitHub &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 4 -->
+                <div id="port4" class="portfolio-card reveal-element">
+                    <div class="project-preview">
+                        <span class="project-preview-code">04 // MacOS UI</span>
+                        <img src="img\4.png" alt="AI Dashboard Showcase">
+                        <div class="project-preview-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">MacOS </h3>
+                        <p class="project-description">An interactive Mac-inspired setup showcasing the creative environment behind modern web development, design, and digital experiences.</p>
+                        <div class="project-tags">
+                            <span class="tag">Html 5</span>
+                            <span class="tag">UI Inspiration</span>
+                            <span class="tag">Mac UI</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://mac-lyart.vercel.app" target="_blank" class="project-btn live-link">Live View &rarr;</a>
+                            <a href="https://github.com/Yashhh710/Mac" target="_blank" class="project-btn repo-link">GitHub &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 5 -->
+                <div id="port5" class="portfolio-card reveal-element">
+                    <div class="project-preview">
+                        <span class="project-preview-code">05 // Portfolio V1</span>
+                        <img src="img\5.png" alt="3D Interactive Showcase">
+                        <div class="project-preview-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Portfolio V1</h3>
+                        <p class="project-description">An early-generation portfolio focused on modern design aesthetics, frontend creativity, immersive Three.js experiences, and building interactive digital environments for the web.
+</p>
+                        <div class="project-tags">
+                            <span class="tag">Html 5</span>
+                            <span class="tag">Three.js</span>
+                            <span class="tag">Anime Style</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://yashhh710.github.io/Portfolio_v1/" target="_blank" class="project-btn live-link">Live View &rarr;</a>
+                            <a href="https://github.com/Yashhh710/Portfolio_v1" target="_blank" class="project-btn repo-link">GitHub &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 6 -->
+                <div id="port6" class="portfolio-card reveal-element">
+                    <div class="project-preview">
+                        <span class="project-preview-code">06 // first portfolio</span>
+                        <img src="img\6.png" alt="Experimental UI Showcase">
+                        <div class="project-preview-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">My 1st Portfolio</h3>
+                        <p class="project-description">A simple, clean, and responsive portfolio website built with HTML5, CSS3, and JavaScript. Showcases my skills, projects, and experience to potential employers and clients.</p>
+                        <div class="project-tags">
+                            <span class="tag">Html 5</span>
+                            <span class="tag">css</span>
+                            <span class="tag">javascript</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://yashhh710.github.io/My-Website/index.html" target="_blank" class="project-btn live-link">Live View &rarr;</a>
+                            <a href="https://github.com/Yashhh710/My-Website" target="_blank" class="project-btn repo-link">GitHub &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            /* ==========================================
+               1. LOADING SCREEN DISMISSAL
+               ========================================== */
+            const loader = document.getElementById('loader');
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    loader.style.visibility = 'hidden';
+                    handleScrollReveal();
+                }, 1800);
+            });
+
+            /* ==========================================
+               2. NAV MENU MECHANICS (MOBILE)
+               ========================================== */
+            const menuToggle = document.getElementById('menu-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            const navbarWrapper = document.querySelector('.navbar-wrapper');
+            const navLinks = document.querySelectorAll('.navbar-link');
+
+            menuToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                navbarWrapper.classList.toggle('open');
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    navbarWrapper.classList.remove('open');
+                });
+            });
+
+            /* ==========================================
+               3. INTERACTIVE MOUSE SPOTLIGHT ENGINE
+               ========================================== */
+            const spotlight = document.getElementById('mouse-spotlight');
+            
+            document.addEventListener('mousemove', (e) => {
+                if(spotlight.style.opacity === '0' || spotlight.style.opacity === '') {
+                    spotlight.style.opacity = '1';
+                }
+                spotlight.style.left = `${e.clientX}px`;
+                spotlight.style.top = `${e.clientY}px`;
+            });
+
+            document.addEventListener('mouseleave', () => {
+                spotlight.style.opacity = '0';
+            });
+
+            /* ==========================================
+               4. CANVAS SCATTERED PARTICLES ENGINE
+               ========================================== */
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 1 + 0.5;
+                    this.speedY = -(Math.random() * 0.2 + 0.1); 
+                    this.opacity = Math.random() * 0.3 + 0.1;
+                }
+                update() {
+                    this.y += this.speedY;
+                    if (this.y < 0) {
+                        this.reset();
+                        this.y = canvas.height;
+                    }
+                }
+                draw() {
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            const particleCount = Math.min(60, Math.floor(window.innerWidth / 20));
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
+
+            /* ==========================================
+               5. SCROLL REVEAL & NAVBAR ACTIVE TRACKING
+               ========================================== */
+            const revealElements = document.querySelectorAll('.reveal-element');
+            const cards = document.querySelectorAll('.portfolio-card');
+
+            function handleScrollReveal() {
+                const triggerBottom = window.innerHeight * 0.88;
+
+                // Elements entry reveal
+                revealElements.forEach(el => {
+                    const elTop = el.getBoundingClientRect().top;
+                    if (elTop < triggerBottom) {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }
+                });
+                
+                // Navbar Active Segment State Mapping
+                let currentActiveCardId = '';
+                cards.forEach(card => {
+                    const cardTop = card.offsetTop;
+                    if (window.scrollY >= (cardTop - 180)) {
+                        currentActiveCardId = card.getAttribute('id');
+                    }
+                });
+
+                if (currentActiveCardId) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${currentActiveCardId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+                
+                // Adaptive Sticky Navbar Compression
+                if (window.scrollY > 50) {
+                    navbarWrapper.querySelector('.navbar').style.padding = '12px 24px';
+                    navbarWrapper.querySelector('.navbar').style.background = 'rgba(5, 5, 8, 0.85)';
+                } else {
+                    navbarWrapper.querySelector('.navbar').style.padding = '16px 32px';
+                    navbarWrapper.querySelector('.navbar').style.background = 'rgba(10, 10, 15, 0.7)';
+                }
+            }
+
+            window.addEventListener('scroll', handleScrollReveal);
+
+            /* ==========================================
+               6. NAVBAR CLICK CARD HIGHLIGHT MECHANISM
+               ========================================== */
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const targetId = link.getAttribute('href');
+                    const targetCard = document.querySelector(targetId);
+                    
+                    if (targetCard) {
+                        // Clear active classes across all cards immediately
+                        cards.forEach(c => c.classList.remove('activated-highlight'));
+                        
+                        // Small buffer window to synchronize clean animation sequence injection
+                        setTimeout(() => {
+                            targetCard.classList.add('activated-highlight');
+                        }, 50);
+
+                        // Wipe class structure out dynamically upon execution to enable re-triggering cycles
+                        targetCard.addEventListener('animationend', () => {
+                            targetCard.classList.remove('activated-highlight');
+                        }, { once: true });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

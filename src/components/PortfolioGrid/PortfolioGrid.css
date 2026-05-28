@@ -1,0 +1,63 @@
+/* ==========================================================================
+   PORTFOLIO SHOWCASE SECTION (2x3 GRID ARCHITECTURE)
+   ========================================================================== */
+.section-header {
+    margin-bottom: 80px;
+    text-align: left;
+}
+
+.section-tag {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: #64748b;
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.section-title {
+    font-size: 36px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+/* Base mobile structure: Single full-width stack */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+}
+
+/* Fixed 2-column, 3-row layout on screens > 768px */
+@media (min-width: 768px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Responsive Design for Tablets */
+@media (max-width: 768px) {
+    .section-header {
+        margin-bottom: 60px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .portfolio-grid {
+        gap: 30px;
+    }
+}
+
+/* Responsive Design for Small Mobile */
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 24px;
+    }
+
+    .portfolio-grid {
+        gap: 20px;
+    }
+}
