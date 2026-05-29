@@ -1,6 +1,6 @@
 # My Portfolio Hub
 
-live Demo - https://yash-tambade.netlify.app/
+live Demo - https://my-portfolio-hub-ten.vercel.app/  
 
 A cinematic, modern portfolio experience built with React + JavaScript, designed to showcase creative frontend development, immersive UI systems, and digital interaction design.
 
